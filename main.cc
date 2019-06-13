@@ -20,9 +20,9 @@ using namespace std;
 NetworkManager *nm = new NetworkManager();
 
 
-void SSS(int ADJ_Matrix[100][100],int n, int Start_point, int End_point) ; 
+void SSS(int ADJ_Matrix[10][10],int n, int Start_point, int End_point, int path[]); 
 int MinPath(int* dist, int* Done,int n) ; 
-void PrintPath(int* Last, int End_point) ; 
+ void PrintPath(int* Last, int End_point ,int path[],int l); 
 
 
 int main(int argc, char** argv){
@@ -31,8 +31,8 @@ int main(int argc, char** argv){
     
 
 
-    string node[100];
-    int edge[100];
+    string node[10];
+    int edge[10];
 
 
     // read from file
@@ -111,11 +111,11 @@ int main(int argc, char** argv){
     
 
     //Adjacenry Matrix
-    int adj_matrix[100][100];
+    int adj_matrix[10][10];
 
-    for(int i=0;i<100;i++)
+    for(int i=0;i<10;i++)
 	{
-		for(int j=0;j<100;j++)
+		for(int j=0;j<10;j++)
 			{
 				adj_matrix[i][j] = 0;
 			}
@@ -124,14 +124,14 @@ int main(int argc, char** argv){
 
      for(int i=0;i<edge_count;i=i+2)
      {
-	adj_matrix[edge[i]][edge[i+1]] = 1;
-	adj_matrix[edge[i+1]][edge[i]] = 1;
+		adj_matrix[edge[i]][edge[i+1]] += 1;
+		adj_matrix[edge[i+1]][edge[i]] += 1;
      }
      
 
 	std::cout << std::endl;
 	std::cout << std::endl;
-	std::cout << "==========Adjacenry Matrix==========" << std::endl;
+	std::cout << "==========Adjacency Matrix==========" << std::endl;
 
     std::cout << "X|";
     for(int i=0;i<node_count;i++)
@@ -157,7 +157,7 @@ int main(int argc, char** argv){
 
     //VETOR ORDER
     
-    int node_order[100];
+    int node_order[10];
     for(int i=0;i<node_count;i++)
 	{
 		node_order[i] = 0;
@@ -176,7 +176,7 @@ int main(int argc, char** argv){
 		std::cout << "Node " <<node[i]<<" Order = " <<node_order[i]<< std::endl;
 	}
 
-    int node_ODD[100];
+    int node_ODD[10];
 	int ODD_count = 0;
     for(int i=0;i<node_count;i++)
 	{
@@ -201,11 +201,128 @@ int main(int argc, char** argv){
 	}
 	std::cout << "ODD count = " <<ODD_count<< std::endl;
 
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "==========Odd Node Path==========" << std::endl;
+
+	int path[10];
+	int path_length[10];
+
+	int node_path_route[10][10];
 
 
-	//SSS(adj_matrix,node_count, node_ODD[0], node_ODD[1]);
-	SSS(adj_matrix,node_count, 0, 3);
+	
+	for(int i=0;i<ODD_count;i++)
+	{
+		for(int j=i+1;j<ODD_count;j++)
+			{	
 
+				for(int m=0;m<10;m++)
+					path[m] = 999;
+				for(int n=0;n<10;n++)
+					path_length[n] = 0;
+
+
+				std::cout << "Node ["<<node[node_ODD[i]]<<"] to "<< "Node ["<<node[node_ODD[j]]<<"] :" ;
+				SSS(adj_matrix,node_count, node_ODD[i], node_ODD[j],path);
+
+					int LEN =0;
+				//std::cout <<node_ODD[i]<<"---";
+					for (int p = 0; p < 10; p++)
+					{
+   	   					 if (path[p] != 999)
+	   					LEN++;
+					}
+					path[LEN] = node_ODD[i];
+				
+				for(int k=9;k>-1;k--)
+				{
+					if(path[k] == 999)
+					{
+						//std::cout << std::endl;
+						//break;
+					}
+					else if (path[k] == node_ODD[j])
+					{
+						std::cout <<path[k];
+						std::cout << std::endl;
+
+						path_length[j] += 1;
+
+						std::cout << "path_length ["<<node[node_ODD[i]]<<"_to_"<<node[node_ODD[j]]<<"] :" ;
+						std::cout <<path_length[i];
+						std::cout << std::endl;	
+						std::cout << std::endl;			
+
+					}
+
+					else 
+					{
+						std::cout <<path[k]<<"---";
+						path_length[i] += 1;
+					}
+
+				}
+
+			}
+
+	}
+
+
+
+	if(ODD_count == 0)
+	{
+		
+	}
+	else if(ODD_count == 2)
+	{
+		for (int i =  0; i < 1 ;i++)  // update adj matrix
+    	{
+			adj_matrix[path[i]][path[i+1]]++;
+			adj_matrix[path[i+1]][path[i]]++;
+
+			std::cout << std::endl;
+			std::cout << std::endl;
+			std::cout << "==========Adjacency Matrix==========" << std::endl;
+
+   			 std::cout << "X|";
+    		for(int i=0;i<node_count;i++)
+			{
+	
+	  			  std::cout <<node[i]<<"|";
+
+			}
+   			 std::cout << std::endl;
+	
+
+ 			   for(int i=0;i<node_count;i++)
+				{
+					std::cout <<node[i]<<"|";
+					for(int j=0;j<node_count;j++)
+					{
+						std::cout << adj_matrix[i][j]<<"|" ;
+					}
+					std::cout << std::endl;
+				}
+			}
+
+	}
+	else if(ODD_count == 4)
+	{
+
+	}
+	else if(ODD_count == 6)
+	{
+
+	}
+	else if(ODD_count == 8)
+	{
+
+	}
+	else if(ODD_count == 10)
+	{
+	
+	}
 
 
 
@@ -218,10 +335,11 @@ int main(int argc, char** argv){
 }
 
 
-void SSS(int ADJ_Matrix[100][100],int n, int Start_point, int End_point) 
+void SSS(int ADJ_Matrix[10][10],int n, int Start_point, int End_point, int path[]) 
 { 
   
     int i, u, j, count; 
+	int l = -1;
     int dist[n]; 
     int Done[n] = { 0 }; 
     int pathlength[n] = { 0 }; 
@@ -260,7 +378,7 @@ void SSS(int ADJ_Matrix[100][100],int n, int Start_point, int End_point)
     } 
   
     if (dist[End_point] != 999) 
-        PrintPath(Last, End_point); 
+        PrintPath(Last, End_point,path,l); 
     else
         cout << "There is no path between vertex "
              << Start_point << "to vertex " << End_point; 
@@ -279,12 +397,16 @@ int MinPath(int* dist, int* Done,int n)
 } 
 
 
- void PrintPath(int* Last, int End_point) 
+ void PrintPath(int* Last, int End_point ,int path[],int l) 
 { 
     if (Last[End_point] == -1) { 
-        cout << End_point; 
+        //cout << End_point; 
+		path[l] = End_point;
         return; 
     } 
-    PrintPath(Last, Last[End_point]); 
-    cout << "->" << End_point; 
+	l++;
+    PrintPath(Last, Last[End_point],path,l); 
+    //cout << "---" << End_point; 
+	path[l] = End_point;
 } 
+
