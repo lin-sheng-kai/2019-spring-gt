@@ -1,5 +1,8 @@
-# Graph-Theory-Project-Template
-Project template of course - Graph Theory (EE6622E) in National Cheng Kung University.
+# Graph-Theory-Final-Project
+##Chinese Postman Problem
+姓名 : 林聖凱
+系級 : 電機系
+學號 : N26070059
 
 ## How to run
 
