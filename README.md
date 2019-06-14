@@ -13,10 +13,10 @@ $make</br>
 #Run</br>
 $./main.out</br>
 
-### Linux
+## Solution
 
 
-### Windows
+## Algorithms
 
 If your PC is `window 10`, then you need to install the related dependencies. For example, if you are using `VSCode` as your IDE, then you can install the plugin of `C/C++` in your vscode. And then install the following programs/packages:
 * mingw
@@ -79,7 +79,7 @@ Or you can just [DOWNLOAD a pre-built VM images](http://gofile.me/39GpL/XU5tznyO
 
 > [Guide of environment setting](https://hackmd.io/-5WZQC-1QqOeV3KUX65tEw?view) on Windows.
 
-## TODO - Your descriptions about solutions/algorithms/results
+## Results
 
 ## Reference
 [1]Chinese Postman Problem : https://zh.wikipedia.org/wiki/%E9%82%AE%E9%80%92%E5%91%98%E9%97%AE%E9%A2%98</br>
