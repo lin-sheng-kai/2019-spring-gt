@@ -1,8 +1,10 @@
 # Graph-Theory-Final-Project
+
 ##Chinese Postman Problem
-*姓名 : 林聖凱
-*系級 : 電機系
-*學號 : N26070059
+
+姓名 : 林聖凱
+系級 : 電機系
+學號 : N26070059
 
 ## How to run
 
