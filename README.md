@@ -8,10 +8,10 @@ Topic : Chinese Postman Problem
 
 ## How to run
 
-#Build
-$make
-#Run
-$./main.out
+#Build</br>
+$make</br>
+#Run</br>
+$./main.out</br>
 
 ### Linux
 
@@ -80,3 +80,11 @@ Or you can just [DOWNLOAD a pre-built VM images](http://gofile.me/39GpL/XU5tznyO
 > [Guide of environment setting](https://hackmd.io/-5WZQC-1QqOeV3KUX65tEw?view) on Windows.
 
 ## TODO - Your descriptions about solutions/algorithms/results
+
+## Reference
+[1]Chinese Postman Problem : https://zh.wikipedia.org/wiki/%E9%82%AE%E9%80%92%E5%91%98%E9%97%AE%E9%A2%98</br>
+[2]Eulerian path : https://en.wikipedia.org/wiki/Eulerian_path</br>
+[3]Depth First Search : http://alrightchiu.github.io/SecondRound/graph-depth-first-searchdfsshen-du-you-xian-sou-xun.html</br>
+[4]Dijkstra's algorithm : https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm</br>
+[5]Markdown suntax : https://github.com/emn178/markdown</br>
+
