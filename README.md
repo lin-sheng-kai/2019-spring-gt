@@ -2,8 +2,8 @@
 ##Chinese Postman Problem
 
 姓名 : 林聖凱</br>
-系級 : 電機系
-學號 : N26070059
+系級 : 電機系</br>
+學號 : N26070059</br>
 
 ## How to run
 
