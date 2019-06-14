@@ -13,6 +13,24 @@ $make</br>
 #Run</br>
 $./main.out</br>
 
+##Setting</br>
+
+我的程式是針對無像且無權重的Graph設計的</br>
+Node的數量上限為10</br>
+
+在執行程式前需要先將Node之間的連線關係寫入topo.txt並放置在根目錄</br>
+定義Node_A和Node_B之間有一條egde的方式為 : Node_A Node_B</br>
+
+topo.txt範例:</br>
+`a b`</br>
+`a c`</br>
+`b c`</br>
+`b e`</br>
+`c e`</br>
+`c d`</br>
+`d e`</br>
+
+
 ## Solution
 
 
