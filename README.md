@@ -34,6 +34,11 @@ d e
 
 ## Solution ##
 
+1.透過topo.txt存取node、edge資料，建構出Adjacency Matrix</br>
+2.挑出order為奇數的node(總數為偶數才能補成尤拉圖)，算出每個odd node之間的"最短路徑"和"路徑長"</br>
+3.以(2.)計算出來的資料為基礎，找出總路徑長最小的node配對</br>
+4.將(3.)求出的路徑補在圖上，並重新計算Adjacency Matrix</br>
+5.將新的Adjacency Matrix放入深度優先搜尋演算法進行運算後得出路徑和總路徑長即為所求</br>
 
 ## Algorithms ##
 
@@ -156,7 +161,7 @@ c|1|1|0|1|1|
 d|1|0|1|0|2|
 e|0|1|1|2|0|
 
-#最後透過深度優先演算法找出路徑並計算出總路徑長
+#最後透過深度優先搜尋演算法找出路徑並計算出總路徑長
 ==========Result Output==========
 Total Path Length : 10
 THE PATH IS : 
