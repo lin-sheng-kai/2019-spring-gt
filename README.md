@@ -8,18 +8,13 @@ Topic : Chinese Postman Problem
 
 ## How to run
 
+#Build
+$make
+#Run
+$./main.out
+
 ### Linux
 
-```
-# clone first (with submodule)
-$ git clone --recursive https://github.com/<your-name>/Graph-Theory-Project-Template.git
-# (Option) build libfakemn.a
-$ cd fake-mininet && make lib && cd .. && cp fake-mininet/libfakemn.a .
-# build
-$ make 
-# run 
-$ ./main.out
-```
 
 ### Windows
 
