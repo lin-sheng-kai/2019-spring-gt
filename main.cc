@@ -723,7 +723,10 @@ int l = 0;
 	length_line = l/2;
 
 
+	cout <<  endl;
+	cout <<  endl;
     cout << "Total Path Length : " << length_line << endl;
+
 	cout <<  endl;
 	cout <<  endl;
 
