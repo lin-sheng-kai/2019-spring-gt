@@ -1,4 +1,4 @@
-# Graph-Theory-Final-Project</br>
+# Graph-Theory-Final-Project #
  
 Topic : Chinese Postman Problem
 
@@ -6,14 +6,14 @@ Topic : Chinese Postman Problem
 系級 : 電機系</br>
 學號 : N26070059</br>
 
-## How to run
+## How to run ##
 
 #Build</br>
 $make</br>
 #Run</br>
 $./main.out</br>
 
-##Setting</br>
+## Setting ##
 
 我的程式是針對無像且無權重的Graph設計的</br>
 Node的數量上限為10</br>
@@ -31,10 +31,10 @@ topo.txt範例:</br>
 `d e`</br>
 
 
-## Solution
+## Solution ##
 
 
-## Algorithms
+## Algorithms ##
 
 If your PC is `window 10`, then you need to install the related dependencies. For example, if you are using `VSCode` as your IDE, then you can install the plugin of `C/C++` in your vscode. And then install the following programs/packages:
 * mingw
@@ -97,12 +97,11 @@ Or you can just [DOWNLOAD a pre-built VM images](http://gofile.me/39GpL/XU5tznyO
 
 > [Guide of environment setting](https://hackmd.io/-5WZQC-1QqOeV3KUX65tEw?view) on Windows.
 
-## Results
+## Results ##
 
-## Reference
+## Reference ##
 [1]Chinese Postman Problem : https://zh.wikipedia.org/wiki/%E9%82%AE%E9%80%92%E5%91%98%E9%97%AE%E9%A2%98</br>
 [2]Eulerian path : https://en.wikipedia.org/wiki/Eulerian_path</br>
 [3]Depth First Search : http://alrightchiu.github.io/SecondRound/graph-depth-first-searchdfsshen-du-you-xian-sou-xun.html</br>
 [4]Dijkstra's algorithm : https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm</br>
 [5]Markdown suntax : https://github.com/emn178/markdown</br>
-
