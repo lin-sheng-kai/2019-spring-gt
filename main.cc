@@ -646,7 +646,7 @@ int LL=999;
 
 			std::cout << std::endl;
 			std::cout << std::endl;
-			std::cout << "==========Adjacency Matrix==========" << std::endl;
+			std::cout << "==========NEW Adjacency Matrix==========" << std::endl;
 
    			 std::cout << "X|";
     		for(int i=0;i<node_count;i++)
@@ -702,24 +702,25 @@ int l = 0;
 	    names_vector[i]=i;
         //visited[i]=degree;
 
-} 
+	} 
+
     for(int i=0;i<10;i++)
 	{
     		visit[0]++;
     
-}
+	}
 
     for(int i = 0; i < 10; i++)    
-    {
-	for(int j = 0; j < 10; j++)
-	{
-	l = l + adj_matrix[i][j];
+   	{
+		for(int j = 0; j < 10; j++)
+		{
+			l = l + adj_matrix[i][j];
 
-}
-}
+		}
+	}
 
-int length_line = 0;
-length_line = l/2;
+	int length_line = 0;
+	length_line = l/2;
 
 
     cout << "Total Path Length : " << length_line << endl;
@@ -737,22 +738,22 @@ length_line = l/2;
 
 
 
-stdout = fopen("RESULT.txt", "w");  // write file
+	stdout = fopen("RESULT.txt", "w");  // write file
 
 	cout << "a" << " ";
 	fprintf(stdout,"a");
 	fprintf(stdout," ");
 
-char result[100];
+	char result[100];
 
     for(int i = 0; i < outpath.size(); i++)
     {	
 
-	cout << outpath[i] << " ";
-	fprintf(stdout, outpath[i].c_str());
-	fprintf(stdout," ");
+		cout << outpath[i] << " ";
+		fprintf(stdout, outpath[i].c_str());
+		fprintf(stdout," ");
 	
-}
+	}
 
 
 
@@ -775,6 +776,12 @@ char result[100];
 
     return 0;
 }
+
+
+
+
+
+
 
 
 void SSS(int ADJ_Matrix[10][10],int n, int Start_point, int End_point, int path[]) 
@@ -858,7 +865,7 @@ void DFS (int s, int len, int visit[], int adj[][10], string names[], int size)
 	visit[s] = visit[s] - 1 ;
 	for(int i = 0; i < size; i++)
 	{
-		if (adj[s][i] != 0 && visit[i] != 0)
+		if ((adj[s][i] != 0) && (visit[i] != 0))
 		{
 			adj[s][i]--;
 			adj[i][s]--;
