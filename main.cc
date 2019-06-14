@@ -14,26 +14,24 @@
 #include <string.h>
 using namespace std;
 
-vector<string> outpath;
-int ok;
+vector<string> final_path;
+int DONE;
 
 
 
 // create NetworkManager first
 NetworkManager *nm = new NetworkManager();
 
-
+//Function Declaration
 void SSS(int ADJ_Matrix[10][10],int n, int Start_point, int End_point, int path[]); 
-int MinPath(int* dist, int* Done,int n) ; 
+int FMP(int* dist, int* Done,int n) ; 
 void PrintPath(int* Last, int End_point ,int path[],int l); 
-void DFS (int s, int len, int visit[], int adj[][10], string names[], int size);
+void Depth_Search (int s, int len, int travel_num[], int ADJ_Matrix[][10], string names[], int size);
 void SPPC(int NPR[][10],int node_ODD[],int ODD_count,int &V1,int &V2,int &V3,int &V4,int &V5,int &V6,int &V7,int &V8,int &V9,int &V10);
 
 
+//Main Program
 int main(int argc, char** argv){
-
-    /* start your program */
-    
 
 
     string node[10];
@@ -54,7 +52,8 @@ int main(int argc, char** argv){
 	node[node_count] = node_list->name;
 	node_count ++;	
 	
-        node_list=node_list->next;
+    node_list=node_list->next;
+	
     }
 
 
@@ -78,7 +77,7 @@ int main(int argc, char** argv){
 	std::cout << "==========Edge==========" << std::endl;
 
 
-        int edge_count=0;	
+    int edge_count=0;	
 
     Edge *edge_list = nm->elist;
     while(edge_list!=NULL) {
@@ -121,17 +120,17 @@ int main(int argc, char** argv){
     for(int i=0;i<10;i++)
 	{
 		for(int j=0;j<10;j++)
-			{
-				adj_matrix[i][j] = 0;
-			}
+		{
+			adj_matrix[i][j] = 0;
+		}
 	}
 
 
-     for(int i=0;i<edge_count;i=i+2)
-     {
+    for(int i=0;i<edge_count;i=i+2)
+    {
 		adj_matrix[edge[i]][edge[i+1]] += 1;
 		adj_matrix[edge[i+1]][edge[i]] += 1;
-     }
+    }
      
 
 	std::cout << std::endl;
@@ -152,9 +151,9 @@ int main(int argc, char** argv){
 	{
 		std::cout <<node[i]<<"|";
 		for(int j=0;j<node_count;j++)
-			{
-				std::cout << adj_matrix[i][j]<<"|" ;
-			}
+		{
+			std::cout << adj_matrix[i][j]<<"|" ;
+		}
 		std::cout << std::endl;
 	}
 
@@ -175,9 +174,9 @@ int main(int argc, char** argv){
     for(int i=0;i<node_count;i++)
 	{
 		for(int j=0;j<node_count;j++)
-			{
-				node_order[i] += adj_matrix[i][j];
-			}
+		{
+			node_order[i] += adj_matrix[i][j];
+		}
 		std::cout << "Node " <<node[i]<<" Order = " <<node_order[i]<< std::endl;
 	}
 
@@ -186,10 +185,10 @@ int main(int argc, char** argv){
     for(int i=0;i<node_count;i++)
 	{
 		if(node_order[i]%2 == 1)
-			{
-				node_ODD[ODD_count] = i;
-				ODD_count += 1;
-			}
+		{
+			node_ODD[ODD_count] = i;
+			ODD_count += 1;
+		}
 			
 	}
 
@@ -227,11 +226,11 @@ int main(int argc, char** argv){
 	for(int i=0;i<100;i++)
 	{
 		for(int j=0;j<10;j++)
-			{	
+		{	
 
-						node_path_walk[i][j] = -1;
+			node_path_walk[i][j] = -1;
 
-			}
+		}
 	}
 
 
@@ -241,126 +240,113 @@ int main(int argc, char** argv){
 	for(int i=0;i<ODD_count;i++)
 	{
 		for(int j=i+1;j<ODD_count;j++)
-			{	
+		{	
 
-				for(int m=0;m<10;m++)
-					path[m] = 999;
-				for(int n=0;n<10;n++)
-					path_length[n] = 0;
-
-
-				std::cout << "Node ["<<node[node_ODD[i]]<<"] to "<< "Node ["<<node[node_ODD[j]]<<"] :" ;
-				SSS(adj_matrix,node_count, node_ODD[i], node_ODD[j],path);
-
-					int LEN =0;
-					int L_start = 0;
-
-					for (int p = 0; p < 10; p++)
-					{
-   	   					 if (path[p] != 999)
-	   						LEN++;
-					}
-					path[LEN] = node_ODD[i];
-				
-					for(int k=9;k>-1;k--)
-					{
-						if(path[k] == 999)
-						{
-
-						}
-						else if (path[k] == node_ODD[j])
-						{
-							std::cout <<path[k];
-							std::cout << std::endl;
-							node_path_walk[node_ODD[i]*10+node_ODD[j]][L_start] = path[k];
-							
-				
-							L_start ++;
-						
-
-							std::cout << "path_length ["<<node[node_ODD[i]]<<"_to_"<<node[node_ODD[j]]<<"] :" ;
-							std::cout <<path_length[i];
-							std::cout << std::endl;	
-							std::cout << std::endl;	
-							node_path_route[node_ODD[i]][node_ODD[j]] = path_length[i];	
-							node_path_route[node_ODD[j]][node_ODD[i]] = path_length[i];		
-
-						}
-
-						else 
-						{
-
-							std::cout <<path[k]<<"---";
-							path_length[i] += 1;
-							node_path_walk[node_ODD[i]*10+node_ODD[j]][L_start] = path[k];
-							
+			for(int m=0;m<10;m++)
+				path[m] = 999;
 			
-							L_start ++;
-						}
+			for(int n=0;n<10;n++)
+				path_length[n] = 0;
 
+
+			std::cout << "Node ["<<node[node_ODD[i]]<<"] to "<< "Node ["<<node[node_ODD[j]]<<"] :" ;
+			SSS(adj_matrix,node_count, node_ODD[i], node_ODD[j],path);
+
+			int LEN =0;
+			int L_start = 0;
+
+			for (int p = 0; p < 10; p++)
+			{
+   	   			if (path[p] != 999)
+	   				LEN++;
+			}
+			path[LEN] = node_ODD[i];
+			
+			for(int k=9;k>-1;k--)
+			{
+				if(path[k] == 999)
+				{
+					//Do nothing
+				}
+				else if (path[k] == node_ODD[j])
+				{
+					std::cout <<path[k];
+					std::cout << std::endl;
+					node_path_walk[node_ODD[i]*10+node_ODD[j]][L_start] = path[k];
+					
+			
+					L_start ++;
+				
+
+					std::cout << "path_length ["<<node[node_ODD[i]]<<"_to_"<<node[node_ODD[j]]<<"] :" ;
+					std::cout <<path_length[i];
+					std::cout << std::endl;	
+					std::cout << std::endl;	
+					node_path_route[node_ODD[i]][node_ODD[j]] = path_length[i];	
+					node_path_route[node_ODD[j]][node_ODD[i]] = path_length[i];		
+
+				}
+				else 
+				{
+
+					std::cout <<path[k]<<"---";
+					path_length[i] += 1;
+					node_path_walk[node_ODD[i]*10+node_ODD[j]][L_start] = path[k];
+					
+			
+					L_start ++;
 				}
 
 			}
+
+		}
 
 	}
 
 
+	std::cout << std::endl;
+	std::cout << "==========Odd Node Path Length==========" << std::endl;
 
-
-
-
-
-
-			std::cout << std::endl;
-			std::cout << std::endl;
-			std::cout << "==========node_path_route==========" << std::endl;
-
-   			 std::cout << "X|";
-    		for(int i=0;i<node_count;i++)
-			{
+   	std::cout << "X|";
+    for(int i=0;i<node_count;i++)
+	{
 	
-	  			  std::cout <<node[i]<<"|";
+		std::cout <<node[i]<<"|";
 
-			}
-   			 std::cout << std::endl;
+	}
+   	std::cout << std::endl;
 	
 
- 			   for(int i=0;i<node_count;i++)
-				{
-					std::cout <<node[i]<<"|";
-					for(int j=0;j<node_count;j++)
-					{
-						std::cout << node_path_route[i][j]<<"|" ;
-					}
-					std::cout << std::endl;
-				}
+ 	for(int i=0;i<node_count;i++)
+	{
+		std::cout <<node[i]<<"|";
+		for(int j=0;j<node_count;j++)
+		{
+			if (node_path_route[i][j] == 99)
+				std::cout <<"X"<<"|" ;
+			else
+				std::cout << node_path_route[i][j]<<"|" ;
+		}
+		std::cout << std::endl;
+	}
 
 
-
-
-
-
-
-
-
-
-
-int x1=11;
-int x2=11;
-int x3=11;
-int x4=11;
-int x5=11;
-int x6=11;
-int x7=11;
-int x8=11;
-int x9=11;
-int x10=11;
-int LL=999;
+	int x1=11;
+	int x2=11;
+	int x3=11;
+	int x4=11;
+	int x5=11;
+	int x6=11;
+	int x7=11;
+	int x8=11;
+	int x9=11;
+	int x10=11;
+	int LL=999;
 
 
 	if(ODD_count == 0)
 	{
-		
+		//Do nothing
 	}
 	else if(ODD_count == 2)
 	{
@@ -368,30 +354,7 @@ int LL=999;
     	{
 			adj_matrix[path[i]][path[i+1]]++;
 			adj_matrix[path[i+1]][path[i]]++;
-
-			std::cout << std::endl;
-			std::cout << std::endl;
-			std::cout << "==========Adjacency Matrix==========" << std::endl;
-
-   			 std::cout << "X|";
-    		for(int i=0;i<node_count;i++)
-			{
-	
-	  			  std::cout <<node[i]<<"|";
-
-			}
-   			 std::cout << std::endl;
-	
-
- 			   for(int i=0;i<node_count;i++)
-				{
-					std::cout <<node[i]<<"|";
-					for(int j=0;j<node_count;j++)
-					{
-						std::cout << adj_matrix[i][j]<<"|" ;
-					}
-					std::cout << std::endl;
-				}
+			
 		}
 
 	}
@@ -407,9 +370,6 @@ int LL=999;
 			if (node_path_walk[x1*10+x2][m+1] == -1)
 				break;
 
-			std::cout << node_path_walk[x1*10+x2][m]<< std::endl;
-			std::cout << node_path_walk[x1*10+x2][m+1]<< std::endl;
-
 			adj_matrix[node_path_walk[x1*10+x2][m]][node_path_walk[x1*10+x2][m+1]]++;
 			adj_matrix[node_path_walk[x1*10+x2][m+1]][node_path_walk[x1*10+x2][m]]++;
 
@@ -421,15 +381,10 @@ int LL=999;
 			if (node_path_walk[x3*10+x4][m+1] == -1)
 				break;
 
-			std::cout << node_path_walk[x3*10+x4][m]<< std::endl;
-			std::cout << node_path_walk[x3*10+x4][m+1]<< std::endl;
-
 			adj_matrix[node_path_walk[x3*10+x4][m]][node_path_walk[x3*10+x4][m+1]]++;
 			adj_matrix[node_path_walk[x3*10+x4][m+1]][node_path_walk[x3*10+x4][m]]++;
 
 		}
-
-
 
 	}
 	else if(ODD_count == 6)
@@ -443,9 +398,6 @@ int LL=999;
 			if (node_path_walk[x1*10+x2][m+1] == -1)
 				break;
 
-			std::cout << node_path_walk[x1*10+x2][m]<< std::endl;
-			std::cout << node_path_walk[x1*10+x2][m+1]<< std::endl;
-
 			adj_matrix[node_path_walk[x1*10+x2][m]][node_path_walk[x1*10+x2][m+1]]++;
 			adj_matrix[node_path_walk[x1*10+x2][m+1]][node_path_walk[x1*10+x2][m]]++;
 
@@ -457,9 +409,6 @@ int LL=999;
 			if (node_path_walk[x3*10+x4][m+1] == -1)
 				break;
 
-			std::cout << node_path_walk[x3*10+x4][m]<< std::endl;
-			std::cout << node_path_walk[x3*10+x4][m+1]<< std::endl;
-
 			adj_matrix[node_path_walk[x3*10+x4][m]][node_path_walk[x3*10+x4][m+1]]++;
 			adj_matrix[node_path_walk[x3*10+x4][m+1]][node_path_walk[x3*10+x4][m]]++;
 
@@ -470,9 +419,6 @@ int LL=999;
 
 			if (node_path_walk[x5*10+x6][m+1] == -1)
 				break;
-
-			std::cout << node_path_walk[x5*10+x6][m]<< std::endl;
-			std::cout << node_path_walk[x5*10+x6][m+1]<< std::endl;
 
 			adj_matrix[node_path_walk[x5*10+x6][m]][node_path_walk[x5*10+x6][m+1]]++;
 			adj_matrix[node_path_walk[x5*10+x6][m+1]][node_path_walk[x5*10+x6][m]]++;
@@ -492,9 +438,6 @@ int LL=999;
 			if (node_path_walk[x1*10+x2][m+1] == -1)
 				break;
 
-			std::cout << node_path_walk[x1*10+x2][m]<< std::endl;
-			std::cout << node_path_walk[x1*10+x2][m+1]<< std::endl;
-
 			adj_matrix[node_path_walk[x1*10+x2][m]][node_path_walk[x1*10+x2][m+1]]++;
 			adj_matrix[node_path_walk[x1*10+x2][m+1]][node_path_walk[x1*10+x2][m]]++;
 
@@ -505,9 +448,6 @@ int LL=999;
 
 			if (node_path_walk[x3*10+x4][m+1] == -1)
 				break;
-
-			std::cout << node_path_walk[x3*10+x4][m]<< std::endl;
-			std::cout << node_path_walk[x3*10+x4][m+1]<< std::endl;
 
 			adj_matrix[node_path_walk[x3*10+x4][m]][node_path_walk[x3*10+x4][m+1]]++;
 			adj_matrix[node_path_walk[x3*10+x4][m+1]][node_path_walk[x3*10+x4][m]]++;
@@ -520,9 +460,6 @@ int LL=999;
 			if (node_path_walk[x5*10+x6][m+1] == -1)
 				break;
 
-			std::cout << node_path_walk[x5*10+x6][m]<< std::endl;
-			std::cout << node_path_walk[x5*10+x6][m+1]<< std::endl;
-
 			adj_matrix[node_path_walk[x5*10+x6][m]][node_path_walk[x5*10+x6][m+1]]++;
 			adj_matrix[node_path_walk[x5*10+x6][m+1]][node_path_walk[x5*10+x6][m]]++;
 
@@ -533,9 +470,6 @@ int LL=999;
 
 			if (node_path_walk[x7*10+x8][m+1] == -1)
 				break;
-
-			std::cout << node_path_walk[x7*10+x8][m]<< std::endl;
-			std::cout << node_path_walk[x7*10+x8][m+1]<< std::endl;
 
 			adj_matrix[node_path_walk[x7*10+x8][m]][node_path_walk[x7*10+x8][m+1]]++;
 			adj_matrix[node_path_walk[x7*10+x8][m+1]][node_path_walk[x7*10+x8][m]]++;
@@ -555,9 +489,6 @@ int LL=999;
 			if (node_path_walk[x1*10+x2][m+1] == -1)
 				break;
 
-			std::cout << node_path_walk[x1*10+x2][m]<< std::endl;
-			std::cout << node_path_walk[x1*10+x2][m+1]<< std::endl;
-
 			adj_matrix[node_path_walk[x1*10+x2][m]][node_path_walk[x1*10+x2][m+1]]++;
 			adj_matrix[node_path_walk[x1*10+x2][m+1]][node_path_walk[x1*10+x2][m]]++;
 
@@ -568,9 +499,6 @@ int LL=999;
 
 			if (node_path_walk[x3*10+x4][m+1] == -1)
 				break;
-
-			std::cout << node_path_walk[x3*10+x4][m]<< std::endl;
-			std::cout << node_path_walk[x3*10+x4][m+1]<< std::endl;
 
 			adj_matrix[node_path_walk[x3*10+x4][m]][node_path_walk[x3*10+x4][m+1]]++;
 			adj_matrix[node_path_walk[x3*10+x4][m+1]][node_path_walk[x3*10+x4][m]]++;
@@ -583,9 +511,6 @@ int LL=999;
 			if (node_path_walk[x5*10+x6][m+1] == -1)
 				break;
 
-			std::cout << node_path_walk[x5*10+x6][m]<< std::endl;
-			std::cout << node_path_walk[x5*10+x6][m+1]<< std::endl;
-
 			adj_matrix[node_path_walk[x5*10+x6][m]][node_path_walk[x5*10+x6][m+1]]++;
 			adj_matrix[node_path_walk[x5*10+x6][m+1]][node_path_walk[x5*10+x6][m]]++;
 
@@ -596,9 +521,6 @@ int LL=999;
 
 			if (node_path_walk[x7*10+x8][m+1] == -1)
 				break;
-
-			std::cout << node_path_walk[x7*10+x8][m]<< std::endl;
-			std::cout << node_path_walk[x7*10+x8][m+1]<< std::endl;
 
 			adj_matrix[node_path_walk[x7*10+x8][m]][node_path_walk[x7*10+x8][m+1]]++;
 			adj_matrix[node_path_walk[x7*10+x8][m+1]][node_path_walk[x7*10+x8][m]]++;
@@ -611,102 +533,68 @@ int LL=999;
 			if (node_path_walk[x7*10+x8][m+1] == -1)
 				break;
 
-			std::cout << node_path_walk[x9*10+x10][m]<< std::endl;
-			std::cout << node_path_walk[x9*10+x10][m+1]<< std::endl;
-
 			adj_matrix[node_path_walk[x9*10+x10][m]][node_path_walk[x9*10+x10][m+1]]++;
 			adj_matrix[node_path_walk[x9*10+x10][m+1]][node_path_walk[x9*10+x10][m]]++;
 
 		}
 
+	}
+	
+	
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "==========NEW Adjacency Matrix==========" << std::endl;
+
+   	 std::cout << "X|";
+    for(int i=0;i<node_count;i++)
+	{
+	
+		std::cout <<node[i]<<"|";
 
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			std::cout << std::endl;
-			std::cout << std::endl;
-			std::cout << "==========NEW Adjacency Matrix==========" << std::endl;
-
-   			 std::cout << "X|";
-    		for(int i=0;i<node_count;i++)
-			{
-	
-	  			  std::cout <<node[i]<<"|";
-
-			}
-   			 std::cout << std::endl;
+   	std::cout << std::endl;
 	
 
- 			   for(int i=0;i<node_count;i++)
-				{
-					std::cout <<node[i]<<"|";
-					for(int j=0;j<node_count;j++)
-					{
-						std::cout << adj_matrix[i][j]<<"|" ;
-					}
-					std::cout << std::endl;
-				}
-
-
-
-
-
-
+ 	for(int i=0;i<node_count;i++)
+	{
+		std::cout <<node[i]<<"|";
+		for(int j=0;j<node_count;j++)
+		{
+			std::cout << adj_matrix[i][j]<<"|" ;
+		}
+		std::cout << std::endl;
+	}
 
 
     int array_dfs[10];
 	int names_vector[10];
-for (int i = 0; i < 10; i++)
-    {
-	array_dfs[i] = 0;
-    for (int j = 0; j < 10; j++)
-    {
 	
-	array_dfs[i] = array_dfs[i] + adj_matrix[i][j];
+	for (int i = 0; i < 10; i++)
+    {
+		array_dfs[i] = 0;
+		for (int j = 0; j < 10; j++)
+		{
+			array_dfs[i] = array_dfs[i] + adj_matrix[i][j];
+		}
+	}
 	
-}
 
-}
-//----------------------------------DFS-----------------------------//
 	
-int visit[10];
-//vector<string> outpath;
-int l = 0;
+	int travel_num[10];
+	int l = 0;
    
 
     for(int i=0;i<10;i++)
 	{
 	    names_vector[i]=0;
-	    visit[i] = (array_dfs[i]/2);
+	    travel_num[i] = (array_dfs[i]/2);
 	    names_vector[i]=i;
-        //visited[i]=degree;
 
 	} 
 
     for(int i=0;i<10;i++)
 	{
-    		visit[0]++;
+    	travel_num[0]++;
     
 	}
 
@@ -715,7 +603,6 @@ int l = 0;
 		for(int j = 0; j < 10; j++)
 		{
 			l = l + adj_matrix[i][j];
-
 		}
 	}
 
@@ -723,22 +610,15 @@ int l = 0;
 	length_line = l/2;
 
 
-	cout <<  endl;
-	cout <<  endl;
+	std::cout << std::endl;
+	std::cout << std::endl;
+	std::cout << "==========Result Output==========" << std::endl;
     cout << "Total Path Length : " << length_line << endl;
 
-	cout <<  endl;
-	cout <<  endl;
-
-	cout << "THE ANSWER IS : ";
-    DFS(0, length_line, visit, adj_matrix, node,  10);
+	cout << "THE PATH IS : ";
+    Depth_Search(0, length_line, travel_num, adj_matrix, node,  10);
 
 	cout <<  endl;
-
-
-
-
-
 
 
 	stdout = fopen("RESULT.txt", "w");  // write file
@@ -749,44 +629,20 @@ int l = 0;
 
 	char result[100];
 
-    for(int i = 0; i < outpath.size(); i++)
+    for(int i = 0; i < final_path.size(); i++)
     {	
 
-		cout << outpath[i] << " ";
-		fprintf(stdout, outpath[i].c_str());
+		cout << final_path[i] << " ";
+		fprintf(stdout, final_path[i].c_str());
 		fprintf(stdout," ");
 	
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     return 0;
 }
 
 
-
-
-
-
-
-
+//Search Shortest Solution
 void SSS(int ADJ_Matrix[10][10],int n, int Start_point, int End_point, int path[]) 
 { 
   
@@ -804,7 +660,7 @@ void SSS(int ADJ_Matrix[10][10],int n, int Start_point, int End_point, int path[
   
     dist[Start_point] = 0; 
     for (count = 0; count < n - 1; count++) { 
-        u = MinPath(dist, Done,n); 
+        u = FMP(dist, Done,n); 
   
         if (u == 999) 
             break; 
@@ -837,7 +693,8 @@ void SSS(int ADJ_Matrix[10][10],int n, int Start_point, int End_point, int path[
 }
 
 
-int MinPath(int* dist, int* Done,int n) 
+//Find Minimum Path
+int FMP(int* dist, int* Done,int n) 
 { 
     int min = 999, min_index, j; 
     for (j = 0; j < n; j++) 
@@ -849,6 +706,7 @@ int MinPath(int* dist, int* Done,int n)
 } 
 
 
+//Print Path
  void PrintPath(int* Last, int End_point ,int path[],int l) 
 { 
     if (Last[End_point] == -1) { 
@@ -857,53 +715,51 @@ int MinPath(int* dist, int* Done,int n)
         return; 
     } 
 	l++;
-    PrintPath(Last, Last[End_point],path,l); 
-    //cout << "---" << End_point; 
+    PrintPath(Last, Last[End_point],path,l);  
 	path[l] = End_point;
 } 
 
-void DFS (int s, int len, int visit[], int adj[][10], string names[], int size)
+
+//Depth Search
+void Depth_Search (int s, int len, int travel_num[], int ADJ_Matrix[][10], string names[], int size)
 {
-	ok = 0;
-	visit[s] = visit[s] - 1 ;
+	DONE = 0;
+	travel_num[s] = travel_num[s] - 1 ;
 	for(int i = 0; i < size; i++)
 	{
-		if ((adj[s][i] != 0) && (visit[i] != 0))
+		if ((ADJ_Matrix[s][i] != 0) && (travel_num[i] != 0))
 		{
-			adj[s][i]--;
-			adj[i][s]--;
+			ADJ_Matrix[s][i]--;
+			ADJ_Matrix[i][s]--;
 			
-			outpath.push_back(names[i]);
+			final_path.push_back(names[i]);
 
 			len--;
 			
 			if (len > 0)
 			{
-				DFS(i, len, visit, adj, names, size);
-				
+				Depth_Search(i, len, travel_num, ADJ_Matrix, names, size);
 			}
 			else if (i == 0)
 			{
-				ok = 1;
+				DONE = 1;
 				return;
 			}
 			
-			if (ok == 1)  return;
+			if (DONE == 1)  return;
 			
 			len++;
-			visit[i]++;
-			outpath.pop_back();
-			adj[s][i]++;
-			adj[i][s]++;
+			travel_num[i]++;
+			final_path.pop_back();
+			ADJ_Matrix[s][i]++;
+			ADJ_Matrix[i][s]++;
 		}	
 	}
 }
 
 
 
-
-
-
+//Shotest Pair Path Comparator
 void SPPC(int NPR[][10],int node_ODD[],int ODD_count,int &V1,int &V2,int &V3,int &V4,int &V5,int &V6,int &V7,int &V8,int &V9,int &V10)
 {
 	int L_re =999;
@@ -923,166 +779,166 @@ void SPPC(int NPR[][10],int node_ODD[],int ODD_count,int &V1,int &V2,int &V3,int
 	{
 
 		
-	for(int b=0;b<ODD_count;b++)//2
-	{	
-
-		if ((b==a)) continue;
-		
-		if (ODD_count == 2)
-		{
+		for(int b=0;b<ODD_count;b++)//2
+		{	
+	
+			if ((b==a)) continue;
 			
-
-			x1=a;
-			x2=b;
-			
-			L_re = NPR[node_ODD[a]][node_ODD[b]];
-
-			break;
-			
-		}
-		
-	for(int c=0;c<ODD_count;c++)
-	{
-
-		if ((c==a)||(c==b)) continue;	
-				
-	for(int d=0;d<ODD_count;d++)//4
-	{
-
-		if ((d==a)||(d==b)||(d==c)) continue;	
-					
-		if (ODD_count == 4)
-		{
-
-			if ((NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]) < L_re)
-			{
-
-				x1=a;
-				x2=b;
-				x3=c;
-				x4=d;
-				
-				L_re = (NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]);
-			}
-			
-		break;
-			
-		}		
-					
-	for(int e=0;e<ODD_count;e++)
-	{
-
-		if ((e==a)||(e==b)||(e==c)||(e==d)) continue;	
-					
-	for(int f=0;f<ODD_count;f++)//6
-	{
-
-		if ((f==a)||(f==b)||(f==c)||(f==d)||(f==e)) continue;	
-		
-		if (ODD_count == 6)
-		{
-			
-			if ((NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]) < L_re)
+			if (ODD_count == 2)
 			{
 				
+	
 				x1=a;
 				x2=b;
-				x3=c;
-				x4=d;
-				x5=e;
-				x6=f;
 				
-				L_re = (NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]);
+				L_re = NPR[node_ODD[a]][node_ODD[b]];
+	
+				break;
+				
 			}
 			
-		break;
-			
-		}
-					
-	for(int g=0;g<ODD_count;g++)
-	{
-
-		if ((g==a)||(g==b)||(g==c)||(g==d)||(g==e)||(g==f)) continue;	
-					
-	for(int h=0;h<ODD_count;h++)//8
-	{
-
-		if ((h==a)||(h==b)||(h==c)||(h==d)||(h==e)||(h==f)||(h==g)) continue;	
-				
-		if (ODD_count == 8)
-		{
-			
-			if ((NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]+NPR[node_ODD[g]][node_ODD[h]]) < L_re)
+			for(int c=0;c<ODD_count;c++)
 			{
-				
-				x1=a;
-				x2=b;
-				x3=c;
-				x4=d;
-				x5=e;
-				x6=f;
-				x7=g;
-				x8=h;
-				
-				L_re = (NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]+NPR[node_ODD[g]][node_ODD[h]]);
-			}
+		
+				if ((c==a)||(c==b)) continue;	
+						
+				for(int d=0;d<ODD_count;d++)//4
+				{
 			
-		break;
+					if ((d==a)||(d==b)||(d==c)) continue;	
+								
+					if (ODD_count == 4)
+					{
+			
+						if ((NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]) < L_re)
+						{
+			
+							x1=a;
+							x2=b;
+							x3=c;
+							x4=d;
+							
+							L_re = (NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]);
+						}
+						
+					break;
+						
+					}		
+								
+					for(int e=0;e<ODD_count;e++)
+					{
+				
+						if ((e==a)||(e==b)||(e==c)||(e==d)) continue;	
+									
+						for(int f=0;f<ODD_count;f++)//6
+						{
+					
+							if ((f==a)||(f==b)||(f==c)||(f==d)||(f==e)) continue;	
+							
+							if (ODD_count == 6)
+							{
+								
+								if ((NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]) < L_re)
+								{
+									
+									x1=a;
+									x2=b;
+									x3=c;
+									x4=d;
+									x5=e;
+									x6=f;
+									
+									L_re = (NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]);
+								}
+								
+							break;
+								
+							}
+										
+							for(int g=0;g<ODD_count;g++)
+							{
+						
+								if ((g==a)||(g==b)||(g==c)||(g==d)||(g==e)||(g==f)) continue;	
+											
+								for(int h=0;h<ODD_count;h++)//8
+								{
+							
+									if ((h==a)||(h==b)||(h==c)||(h==d)||(h==e)||(h==f)||(h==g)) continue;	
+											
+									if (ODD_count == 8)
+									{
+										
+										if ((NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]+NPR[node_ODD[g]][node_ODD[h]]) < L_re)
+										{
+											
+											x1=a;
+											x2=b;
+											x3=c;
+											x4=d;
+											x5=e;
+											x6=f;
+											x7=g;
+											x8=h;
+											
+											L_re = (NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]+NPR[node_ODD[g]][node_ODD[h]]);
+										}
+										
+									break;
+										
+									}
+											
+									for(int i=0;i<ODD_count;i++)
+									{
+								
+										if ((i==a)||(i==b)||(i==c)||(i==d)||(i==e)||(i==f)||(i==g)||(i==h)) continue;	
+												
+										for(int j=0;j<ODD_count;j++)//10
+										{
+									
+											if ((j==a)||(j==b)||(j==c)||(j==d)||(j==e)||(j==f)||(j==g)||(j==h)||(j==i)) continue;	
+												
+											if (ODD_count == 10)
+											{
+												
+												if ((NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]+NPR[node_ODD[g]][node_ODD[h]]+NPR[node_ODD[i]][node_ODD[j]]) < L_re)
+												{
+													
+													x1=a;
+													x2=b;
+													x3=c;
+													x4=d;
+													x5=e;
+													x6=f;
+													x7=g;
+													x8=h;
+													x9=i;
+													x10=j;
+													
+													L_re = (NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]+NPR[node_ODD[g]][node_ODD[h]]+NPR[node_ODD[i]][node_ODD[j]]);
+												}
+												
+											break;
+												
+											}
+												
+											
+										}
+										
+									}
+									
+								}
+								
+							}
+							
+						}
+						
+					}
+					
+				}
+				
+			}	
 			
 		}
-				
-	for(int i=0;i<ODD_count;i++)
-	{
-
-		if ((i==a)||(i==b)||(i==c)||(i==d)||(i==e)||(i==f)||(i==g)||(i==h)) continue;	
-				
-	for(int j=0;j<ODD_count;j++)//10
-	{
-
-		if ((j==a)||(j==b)||(j==c)||(j==d)||(j==e)||(j==f)||(j==g)||(j==h)||(j==i)) continue;	
-			
-		if (ODD_count == 10)
-		{
-			
-			if ((NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]+NPR[node_ODD[g]][node_ODD[h]]+NPR[node_ODD[i]][node_ODD[j]]) < L_re)
-			{
-				
-				x1=a;
-				x2=b;
-				x3=c;
-				x4=d;
-				x5=e;
-				x6=f;
-				x7=g;
-				x8=h;
-				x9=i;
-				x10=j;
-				
-				L_re = (NPR[node_ODD[a]][node_ODD[b]]+NPR[node_ODD[c]][node_ODD[d]]+NPR[node_ODD[e]][node_ODD[f]]+NPR[node_ODD[g]][node_ODD[h]]+NPR[node_ODD[i]][node_ODD[j]]);
-			}
-			
-		break;
-			
-		}
-			
-		
-	}
-		
-	}
-		
-	}
-		
-	}
-		
-	}
-		
-	}
-		
-	}
-		
-	}	
-		
-	}
 		
 	}
 	
@@ -1136,10 +992,6 @@ void SPPC(int NPR[][10],int node_ODD[],int ODD_count,int &V1,int &V2,int &V3,int
 		
 	}
 
-
-
-
-
 	V1 = node_ODD[x1 ];
 	V2 = node_ODD[x2 ];
 	V3 = node_ODD[x3 ];
@@ -1150,7 +1002,6 @@ void SPPC(int NPR[][10],int node_ODD[],int ODD_count,int &V1,int &V2,int &V3,int
 	V8 = node_ODD[x8 ];
 	V9 = node_ODD[x9 ];
 	V10= node_ODD[x10];
-	
 	
 	
 	cout<< endl;	
